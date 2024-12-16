@@ -55,8 +55,8 @@ export default authSlice.reducer
 
  export function register(data:RegisterData){
   return async function registerThunk(dispatch:any){
-  try {
     dispatch(setStatus(AuthStatus.Loading))
+  try {
     const response =  await API.post('register',data)
     if(response.status === 201){
       dispatch(setStatus(AuthStatus.Success))
@@ -72,8 +72,8 @@ dispatch(setStatus(AuthStatus.Error))
 
  export function login( data:LoginData){
   return async function loginThunk(dispatch:any){
+    dispatch(setStatus(AuthStatus.Loading))
     try {
-      dispatch(setStatus(AuthStatus.Loading))
       const response = await API.post('login',data)
      if( response.status === 200){
       dispatch(setStatus(AuthStatus.Success))
