@@ -7,3 +7,6 @@ import authSlice from'./authSlice'
   }
  })
  export default store
+
+ export type AppDispatch = typeof store.dispatch
+ export type RootState = ReturnType<typeof store.getState> //generic type

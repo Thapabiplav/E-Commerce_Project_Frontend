@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import API from '../http'
 
-enum AuthStatus{
+
+export enum AuthStatus{
   Loading='loading',
   Success='success',
   Error='error'
@@ -45,12 +46,18 @@ const initialState:AuthSlice={
     },
     setStatus(state:AuthSlice,action:PayloadAction <AuthStatus>){
       state.status=action.payload
+    },
+    resetStatus(state:AuthSlice){
+      state.status=AuthStatus.Loading
+    },
+    setToken(state:AuthSlice,action:PayloadAction <string>){
+      state.user.token=action.payload
     }
   }
   }
 )
 
-export  const {setStatus,setUser}=authSlice.actions
+export  const {setStatus,setUser,resetStatus,setToken}=authSlice.actions
 export default authSlice.reducer
 
  export function register(data:RegisterData){
@@ -76,7 +83,10 @@ dispatch(setStatus(AuthStatus.Error))
     try {
       const response = await API.post('login',data)
      if( response.status === 200){
+      const {data}=response.data
       dispatch(setStatus(AuthStatus.Success))
+      dispatch(setToken(data))
+      localStorage.setItem('token',data)
      }
      else{
       dispatch(setStatus(AuthStatus.Error))
