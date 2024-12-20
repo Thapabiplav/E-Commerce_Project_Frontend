@@ -1,12 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import API from '../http'
+import { AuthStatus } from '../globals/types/types'
 
 
-export enum AuthStatus{
-  Loading='loading',
-  Success='success',
-  Error='error'
-}
+
 
 interface RegisterData{
   email:string,
