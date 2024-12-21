@@ -1,19 +1,25 @@
+import { Link } from "react-router-dom"
+import { Product } from "../../types/productTypes"
+
+interface CardProps{
+    data:Product
+}
 
 
-const Card = () => {
+const Card:React.FC<CardProps> = ({data}) => {
   return (
     <>
-       
-    <div className="max-w-2xl mx-auto mt-4">
+
+     <Link to={`/product/${data.id}`}>
+     <div className="max-w-2xl mx-auto mt-4">
     
         <div className="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
-                <img className="rounded-t-lg p-8" src="https://t4.ftcdn.net/jpg/03/28/37/93/360_F_328379347_xEKgEB2wkjAJmcqSTmrg4uKxfWrlL7D9.jpg" alt="product image" />
+                <img className="rounded-t-lg p-8" src={data.productImageUrl} alt="product image" />
             </a>
                 <div className="px-5 pb-5">
                     <a href="#">
-                        <h3 className="text-gray-900 font-semibold text-xl tracking-tight dark:text-white">Apple Watch Series 7
-                            GPS, Aluminium Case, Starlight Sport</h3>
+                        <h3 className="text-gray-900 font-semibold text-xl tracking-tight dark:text-white">{data?.productName}</h3>
                     </a>
                     <div className="flex items-center mt-2.5 mb-5">
                         <svg className="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"
@@ -48,8 +54,8 @@ const Card = () => {
                         </svg>
                         <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                        <span className="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
+                    <div className="flex items-center justify-between gap-6">
+                        <span className="text-3xl font-bold text-gray-900 dark:text-white"> Rs. {data?.productPrice}</span>
                         <a href="#"
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
                             to cart</a>
@@ -57,6 +63,8 @@ const Card = () => {
                 </div>
         </div>
     </div>
+     </Link>  
+    
 </>
   )
 }

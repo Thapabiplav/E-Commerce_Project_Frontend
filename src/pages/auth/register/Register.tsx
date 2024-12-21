@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import Form from '../Form'
 import { UserDataType } from '../types'
 import { useEffect } from 'react'
-import {AuthStatus} from '../../../store/authSlice'
+import { AuthStatus } from '../../../globals/types/types'
+
 
 const Register = () => {
   const navigate = useNavigate()

@@ -3,8 +3,6 @@ import API from '../http'
 import { AuthStatus } from '../globals/types/types'
 
 
-
-
 interface RegisterData{
   email:string,
   password:string,

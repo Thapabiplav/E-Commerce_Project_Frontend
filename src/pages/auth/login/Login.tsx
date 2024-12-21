@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
 import {  UserLogin } from "../types"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
-import { AuthStatus, login, resetStatus } from "../../../store/authSlice"
+import {  login, resetStatus } from "../../../store/authSlice"
 import { useEffect } from "react"
 import Form from "../Form"
+import { AuthStatus } from "../../../globals/types/types"
 
 
 const Login = () => {

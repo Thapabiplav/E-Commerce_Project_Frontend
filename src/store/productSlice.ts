@@ -46,3 +46,10 @@ export function fetchProduct (){
     }
   }
 }
+
+export function fetchByProductId(productId:string){
+  return  async function fetchByProductIdThunk(dispatch:AppDispatch){
+    
+
+  } 
+}
