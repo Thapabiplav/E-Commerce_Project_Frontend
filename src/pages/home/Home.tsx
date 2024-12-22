@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(()=>{
     dispatch(fetchProduct())
   },[])
-  console.log(product)
+
   return (
     <>
     <Hero/>

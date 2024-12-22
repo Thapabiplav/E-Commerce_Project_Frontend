@@ -1,7 +1,19 @@
+import { useParams } from "react-router-dom"
 import Navbar from "../../globals/components/navbar/Navbar"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { fetchByProductId } from "../../store/productSlice"
 
 
 const SingleComponent = () => {
+    const {id}=useParams()
+    const dispatch = useAppDispatch()
+    const {singleProduct}=useAppSelector((state)=>state.product)
+    useEffect(()=>{
+        if(id){
+            dispatch(fetchByProductId(id))
+        }
+    },[])
   return (
     <>
     <Navbar/>
@@ -10,7 +22,7 @@ const SingleComponent = () => {
         <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
                 <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-                    <img className="w-full h-full object-cover" src=''alt="Product Image" />
+                    <img className="w-full h-full object-cover" src={singleProduct?.productImageUrl}alt="Product Image" />
                 </div>
                 <div className="flex -mx-2 mb-4">
                     <div className="w-1/2 px-2">
@@ -22,11 +34,12 @@ const SingleComponent = () => {
                 </div>
             </div>
             <div className="md:flex-1 px-4">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">singleProduct</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{singleProduct?.productName}</h2>
                 <div className="flex mb-4">
                     <div className="mr-4">
-                        <span className="font-bold text-gray-700 dark:text-gray-300">Price:</span>
-                        <span className="text-gray-600 dark:text-gray-300">$singleProduct</span>
+                   
+                        <span className="font-bold text-gray-700 dark:text-gray-300">Price:Rs.{singleProduct?.productPrice}</span>
+    
                     </div>
                     <div>
                         <span className="font-bold text-gray-700 dark:text-gray-300">Availability:</span>
@@ -55,7 +68,7 @@ const SingleComponent = () => {
                 <div>
                     <span className="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
                     <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-                    singleProduct
+                    {singleProduct?.productDescription}
                     </p>
                 </div>
             </div>

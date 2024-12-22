@@ -29,4 +29,5 @@ export interface Product {
 export interface ProductState {
   product: Product[]; //array of product store garxa
   status: AuthStatus;
+  singleProduct:Product | null // single product
 }
