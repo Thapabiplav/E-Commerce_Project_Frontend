@@ -5,6 +5,7 @@ import Home from "./pages/home/Home"
 import Register from "./pages/auth/register/Register"
 import Login from "./pages/auth/login/Login"
 import SingleComponent from "./pages/singleComponent/SingleComponent"
+import Cart from "./pages/cart/Cart"
 function App() {
 
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/register" element={<Register/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/product/:id" element={<SingleComponent/>} />
+      <Route path="/cart" element={<Cart/>} />
     </Routes>
     </BrowserRouter>
     </Provider>
