@@ -9,6 +9,7 @@ const Navbar = () => {
   const {user}=useAppSelector((state)=>state.auth)
   const [isLoggedIn,setIsLoggedIn]=useState<boolean>(false)
   const {items}=useAppSelector((state)=>state.carts)
+
   useEffect(()=>{
     const token=localStorage.getItem('token')
     setIsLoggedIn(!!token || !!user.token)
