@@ -1,13 +1,17 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import Navbar from "../../globals/components/navbar/Navbar"
-import { useAppSelector } from "../../store/hooks"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { ItemDetails, OrderData, PaymentMethod } from "../../globals/types/checkoutTypes"
+import { orderItem } from "../../store/checkoutSlice"
+import { AuthStatus } from "../../globals/types/types"
 
 
 const Checkout = () => {
 
   const {items}=useAppSelector((state)=>state.carts)
+  const {khaltiUrl,status} =useAppSelector((state)=>state.orders)
 
+const dispatch=useAppDispatch()
   const [paymentMethod,setPaymentMethod]=useState<PaymentMethod>(PaymentMethod.COD)
 
   const [data,setData]=useState<OrderData>({
@@ -20,7 +24,7 @@ const Checkout = () => {
     items:[]
   })
 
-  const handlePaymentMethod =(e:ChangeEvent<HTMLInputElement>)=>{
+  const handlePaymentMethod = (e:ChangeEvent<HTMLInputElement>)=>{
     setPaymentMethod(e.target.value as PaymentMethod)
     setData({
       ...data,
@@ -38,8 +42,8 @@ const Checkout = () => {
 
     })
   }
-
-  const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
+let subtotal=items.reduce((total,item)=>item.Product.productPrice *item.quantity + total ,0)
+  const handleSubmit =  async (e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
 
     const itemDetails:ItemDetails[]=items.map((item)=>{
@@ -49,14 +53,25 @@ const Checkout = () => {
       }
     })
  
-  const totalAmount=items.reduce((total,item)=>item.Product.productPrice *item.quantity + total ,0)
+   
 
   const orderData = {
     ...data,
     items:itemDetails,
-    totalAmount
+    totalAmount:subtotal
   }
+
+ await dispatch(orderItem(orderData))
+ if(khaltiUrl){
+  window.location.href =khaltiUrl
+ }
 }
+
+useEffect(()=>{
+  if (status === AuthStatus.Success){
+    alert ('Order placed successfully')
+   }
+},[status,dispatch])
 
   return (
  <>
@@ -134,21 +149,27 @@ const Checkout = () => {
       <div className="mt-6 border-t border-b py-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-900">Subtotal</p>
-          <p className="font-semibold text-gray-900">Rs subtotal</p>
+          <p className="font-semibold text-gray-900">Rs {subtotal}</p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-900">Shipping</p>
-          <p className="font-semibold text-gray-900">Rs shippingAmount</p>
+          <p className="font-semibold text-gray-900">Rs 100</p>
         </div>
       </div>
       <div className="mt-6 flex items-center justify-between">
         <p className="text-sm font-medium text-gray-900">Total</p>
-        <p className="text-2xl font-semibold text-gray-900">Rs Total</p>
+        <p className="text-2xl font-semibold text-gray-900">Rs {subtotal + 100}</p>
       </div>
     </div>
-      <button type="submit" className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
-     <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white" style={{backgroundColor:'purple'}}>Pay With Khalti</button>
-  
+
+     {
+      paymentMethod === PaymentMethod.Khalti ?(
+        <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white" style={{backgroundColor:'purple'}}>Pay With Khalti</button>
+      ): (
+        <button type="submit" className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+      )
+     }
+
   </div>
  </form>
 </div>

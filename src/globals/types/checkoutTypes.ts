@@ -1,3 +1,5 @@
+import { AuthStatus } from "./types"
+
 export enum PaymentMethod{
 COD='cod',
 Khalti='khalti'
@@ -8,6 +10,11 @@ export interface ItemDetails{
   quantity:number
 }
 
+export interface OrderResponseItem extends ItemDetails{
+  orderId:string
+
+}
+
 export interface OrderData{
   phoneNumber:string,
   shippingAddress:string,
@@ -16,4 +23,10 @@ export interface OrderData{
     paymentMethod:PaymentMethod
   }
   items:ItemDetails[]
+}
+
+export interface OrderResponseData{
+ items:OrderResponseItem[]
+ status:AuthStatus,
+ khaltiUrl:string |null
 }
