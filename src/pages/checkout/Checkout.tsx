@@ -4,13 +4,14 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { ItemDetails, OrderData, PaymentMethod } from "../../globals/types/checkoutTypes"
 import { orderItem } from "../../store/checkoutSlice"
 import { AuthStatus } from "../../globals/types/types"
+import { useNavigate } from "react-router-dom"
 
 
 const Checkout = () => {
 
   const {items}=useAppSelector((state)=>state.carts)
   const {khaltiUrl,status} =useAppSelector((state)=>state.orders)
-
+ const navigate = useNavigate()
 const dispatch=useAppDispatch()
   const [paymentMethod,setPaymentMethod]=useState<PaymentMethod>(PaymentMethod.COD)
 
@@ -70,6 +71,7 @@ let subtotal=items.reduce((total,item)=>item.Product.productPrice *item.quantity
 useEffect(()=>{
   if (status === AuthStatus.Success){
     alert ('Order placed successfully')
+    navigate('/')
    }
 },[status,dispatch])
 
