@@ -19,7 +19,7 @@ export interface OrderResponseItem extends ItemDetails{
 enum PaymentStatus{
   Paid = 'paid',
   Unpaid = 'unpaid',
-  Pending = 'pending'
+  Pending = 'pending',
 }
 
 interface Payment{
@@ -50,12 +50,13 @@ export interface OrderResponseData{
 
 
 
-enum OrderStatus{
+export enum OrderStatus{
   Pending = 'pending',
   Delivered = 'delivered',
   Ontheway = 'ontheway',
   Cancel = 'cancelled',
-  Preparation= 'preparation'
+  Preparation= 'preparation',
+   All ='all'
 }
 
 interface UserData{
