@@ -22,8 +22,8 @@ function App() {
       <Route path="/product/:id" element={<SingleComponent/>} />
       <Route path="/cart" element={<Cart/>} />
       <Route path='/checkout' element={<Checkout/>} />
-      <Route path="/myorder" element={<MyOrder/>} />
-      <Route path="/myorder:id" element={<MyOrderDetails/>} />
+      <Route path="/myorders" element={<MyOrder/>} />
+      <Route path="/myorders/:id" element={<MyOrderDetails/>} />
     </Routes>
     </BrowserRouter>
     </Provider>

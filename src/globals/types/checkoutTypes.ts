@@ -1,3 +1,4 @@
+import { Product } from "./productTypes"
 import { AuthStatus } from "./types"
 
 export enum PaymentMethod{
@@ -42,8 +43,9 @@ export interface OrderData{
 export interface OrderResponseData{
  items:OrderResponseItem[]
  status:AuthStatus,
- khaltiUrl: string |null
- myOrders:MyOrdersData[]
+ khaltiUrl: string |null,
+ myOrders:MyOrdersData[],
+ orderDetails:OrderDetails[]
 }
 
 
@@ -56,6 +58,10 @@ enum OrderStatus{
   Preparation= 'preparation'
 }
 
+interface UserData{
+  username:string,
+  email:string
+}
 export interface MyOrdersData{
   id:string,
   phoneNumber:string,
@@ -64,6 +70,15 @@ export interface MyOrdersData{
   orderStatus: OrderStatus,
   createdAt: string,
   paymentId: string,
-  userId:string,
+  userId:UserData,
   Payment:OrderPaymentData
+}
+
+
+export interface OrderDetails{
+  id:string,  //orderDetail id
+  quantity:number,
+  orderId:string,
+  Product:Product,
+  Order:MyOrdersData
 }

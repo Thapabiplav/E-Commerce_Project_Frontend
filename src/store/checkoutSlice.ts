@@ -1,6 +1,6 @@
 import {createSlice,PayloadAction} from '@reduxjs/toolkit'
 import { AuthStatus } from '../globals/types/types'
-import { MyOrdersData, OrderData, OrderResponseData, OrderResponseItem } from '../globals/types/checkoutTypes'
+import { MyOrdersData, OrderData, OrderDetails, OrderResponseData, OrderResponseItem } from '../globals/types/checkoutTypes'
 import { AppDispatch } from './store'
 import {  ApiAuthenticated } from '../http'
 
@@ -9,7 +9,8 @@ const initialState:OrderResponseData = {
   items:[],
   status:AuthStatus.Loading,
   khaltiUrl:null ,
-  myOrders:[]
+  myOrders:[],
+  orderDetails:[]
 }
 
 const orderSlice=createSlice({
@@ -27,11 +28,14 @@ const orderSlice=createSlice({
     },
     setkhaltiUrl(state:OrderResponseData,action:PayloadAction <OrderResponseData['khaltiUrl']>){
       state.khaltiUrl=action.payload
+    },
+    setMyOrderDetails(state:OrderResponseData,action:PayloadAction<OrderDetails[]>){
+      state.orderDetails=action.payload
     }
   }
 })
 
-export const {setItems,setStatus,setkhaltiUrl,setMyOrders}=orderSlice.actions
+export const {setItems,setStatus,setkhaltiUrl,setMyOrders,setMyOrderDetails}=orderSlice.actions
 export default orderSlice.reducer
 
 export function orderItem(data:OrderData){
@@ -66,6 +70,24 @@ export function fetchMyOrders(){
       if(response.status === 200){
         dispatch(setStatus(AuthStatus.Success))
         dispatch(setMyOrders(response.data.data))
+      }
+      else{
+        dispatch(setStatus(AuthStatus.Error))
+      }
+    } catch (error) {
+      dispatch(setStatus(AuthStatus.Error))
+    }
+  }
+}
+
+export function fetchMyOrdersDetails(id:string){
+  return async function fetchMyOrdersDetailsThunk(dispatch:AppDispatch){
+    dispatch(setStatus(AuthStatus.Loading))
+    try {
+      const response = await ApiAuthenticated.get('order/customer/' + id)
+      if(response.status === 200){
+        dispatch(setStatus(AuthStatus.Success))
+        dispatch(setMyOrderDetails(response.data.data))
       }
       else{
         dispatch(setStatus(AuthStatus.Error))
